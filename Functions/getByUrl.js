@@ -93,6 +93,7 @@ module.exports.getFilmByName = async (name) => {
       return { error: "No Results found!!", data: null };
     }
   } catch (e) {
+    return { error: "No Results found!!", data: null };
     console.log(e);
   }
 };
