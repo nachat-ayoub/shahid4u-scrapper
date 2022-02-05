@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <%- include('./partials/bs'); %>
+    <title><%= s || "Search For A Film" %></title>
+
+    <style>
+      .poster-container {
+        position: relative;
+        box-shadow: 0px 0px 24px 6px rgb(0 0 0 / 22%);
+        border-radius: 5px;
+        overflow: hidden;
+        transition: 0.3s all;
+      }
+
+      .poster-link {
+        text-decoration: none;
+      }
+      .poster {
+        width: 200px;
+        height: 300px;
+        position: relative;
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+      .poster-container:hover .poster {
+        transform: scale(1.3);
+        transition: 0.4s all;
+      }
+      .title:hover {
+        color: #fff;
+      }
+      .poster-container:hover .title {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: 0.4s all;
+      }
+      .title {
+        line-height: 16px;
+        text-decoration: none;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        height: 110px;
+        min-height: fit-content;
+        color: white;
+        padding: 30px 5px 5px 5px;
+        font-size: 0.8rem;
+        background-image: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.9),
+          rgba(0, 0, 0, 0.8),
+          rgba(0, 0, 0, 0.658),
+          rgba(0, 0, 0, 0.401),
+          rgba(0, 0, 0, 0)
+        );
+      }
+      .rate {
+        position: absolute;
+        width: fit-content;
+        top: 10px;
+        left: 10px;
+        padding: 3px 5px;
+        background-color: #ffc62a;
+        color: #000;
+        font-weight: bold;
+        font-size: 1rem;
+        border-radius: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .rate i {
+        font-size: 0.8rem;
+        margin-right: 5px;
+      }
+      .poters-wrapper {
+        flex-wrap: wrap;
+      }
+      .search-btn {
+        font-size: 1.3rem;
+        padding-top: 13px;
+        padding-bottom: 13px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container py-5">
+      <h1 class="text-center">You Have To Enter The Right Film Name</h1>
+      <div class="my-5">
+        <label for="query" class="form-label h4">Search :</label>
+        <div class="d-flex justify-content-between align-items-center">
+          <input
+            type="text"
+            class="form-control py-3 ps-3"
+            id="query"
+            placeholder="Search for the film..."
+          />
+          <!-- captain america -->
+          <button
+            class="btn btn-success search-btn px-5 ms-3"
+            onclick="search()"
+          >
+            Search
+          </button>
+        </div>
+      </div>
+    </div>
+    <% if (s) { %>
+    <!--  -->
+    <% if (!data) { %>
+    <img src="https://irisspatisserie.in/images/loading.gif" alt="Loading..." />
+    <% } %>
+    <!--  -->
+    <% if (error === null && data.length !== 0) { %>
+    <!--  -->
+    <div
+      class="poters-wrapper container py-5 d-flex justify-content-around align-center"
+    >
+      <% data.forEach((e) => { %>
+      <div class="poster-container mb-4">
+        <a class="poster-link" href="/film/watch/?src=<%= e.src %>">
+          <div
+            style="background-image: url('<%= e.poster %>')"
+            class="poster"
+          ></div>
+        </a>
+        <h4 class="rate"><i class="fas fa-star"></i><%= e.rate %></h4>
+        <a dir="rtl" href="/film/watch/?src=<%= e.src %>" class="title pb-3">
+          <%= e.title.length > 65 ? e.title.slice(0, 65)+"..." : e.title %>
+        </a>
+      </div>
+      <% }) %>
+    </div>
+    <!--  -->
+    <% } else { %>
+    <div class="container d-flex justify-content-center align-center">
+      <h1>Sorry This Film Is Not Found!</h1>
+    </div>
+    <!--  -->
+    <% } %>
+    <!--  -->
+    <% } %>
+
+    <script>
+      const search = () => {
+        let query = document.querySelector("#query").value;
+        window.location.replace("/film/?s=" + query);
+      };
+    </script>
+  </body>
+</html>
