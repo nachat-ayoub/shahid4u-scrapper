@@ -1,25 +1,4 @@
 const axios = require("axios");
-const cheerio = require("cheerio");
-
-module.exports.getMovieByUrl = async (url) => {
-  try {
-    let { data } = await axios.get(encodeURI(url));
-    let $ = cheerio.load(data);
-    const MovieEmbed = $("iframe").first().attr("src");
-    // console.log(MovieEmbed);
-
-    return MovieEmbed;
-  } catch (e) {
-    console.log(e);
-  }
-};
-
-module.exports.getSeriesByUrl = async (url) => {
-  try {
-  } catch (e) {
-    console.log(e);
-  }
-};
 
 module.exports.getFilmByUrl = async (url) => {
   try {
