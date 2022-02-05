@@ -32,7 +32,7 @@ app.get("/film", async (req, res) => {
       const resp = await getFilmByName(s);
       res.render("film", { s, error: resp.error, data: resp.data });
     } else {
-      res.render("film");
+      res.render("film", { s: "", error: null, data: [] });
     }
   } catch (err) {
     console.log(err);
