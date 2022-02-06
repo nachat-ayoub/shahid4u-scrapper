@@ -18,6 +18,8 @@ module.exports.getFilmByName = async (name) => {
     const search_resp = await axios.default.get(
       "https://shahed4u.pro/?s=" + name
     );
+
+    console.log("\n\nResponseData Status", search_resp.status, "\n\n");
     const $ = cheerio.load(search_resp.data);
     const isFound = $(`.MediaGrid .media-block`).length === 0 ? false : true;
     if (isFound) {
