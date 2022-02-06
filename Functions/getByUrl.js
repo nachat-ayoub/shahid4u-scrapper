@@ -1,9 +1,15 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
 
+const config = {
+  headers: {
+    Referer: "https://shahed4u.pro/",
+  },
+};
+
 module.exports.getFilmByUrl = async (url) => {
   try {
-    const { data } = await axios.default.get(url); // encodeURI(url)
+    const { data } = await axios.default.get(url, config); // encodeURI(url)
     const $ = cheerio.load(data);
     const src = $(`iframe`).first().attr("src");
     return src;
@@ -16,7 +22,8 @@ module.exports.getFilmByName = async (name) => {
   try {
     // Step 1 : Search By Name And Select First Url
     const search_resp = await axios.default.get(
-      "https://shahed4u.pro/?s=" + name
+      "https://shahed4u.pro/?s=" + name,
+      config
     );
 
     console.log("\n\nResponseData Status", search_resp.status, "\n\n");
@@ -35,7 +42,8 @@ module.exports.getFilmByName = async (name) => {
         // Step 2 : get Watch Link
         for (let i = 0; i < films_Url.length; i++) {
           const watch_resp = await axios.default.get(
-            $(films_Url[i]).attr("href")
+            $(films_Url[i]).attr("href"),
+            config
           );
           const $$ = cheerio.load(watch_resp.data);
 
