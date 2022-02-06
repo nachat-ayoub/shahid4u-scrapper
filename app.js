@@ -27,7 +27,8 @@ app.get("/film/watch/", async (req, res) => {
 // search Film
 app.get("/film", async (req, res) => {
   try {
-    const { s } = req.query;
+    const s = req.query.s;
+    console.log(s);
     if (s) {
       const resp = await getFilmByName(s);
       res.render("film", { s, error: resp.error, data: resp.data });
